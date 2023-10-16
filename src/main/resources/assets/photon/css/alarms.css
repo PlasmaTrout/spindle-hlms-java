@@ -1,0 +1,35 @@
+.CRITICAL {
+  background-color: red;
+   color: white;
+   font-weight: bold;
+}
+
+.MAJOR {
+ background-color: #FF4719;
+   color: white;
+   font-weight: bold;
+}
+
+.MINOR {
+ background-color: yellow;
+   color: black;
+   font-weight: bold;
+}
+
+.INFO {
+ background-color: blue;
+   color: white;
+   font-weight: bold;
+}
+
+.BUILD {
+  background-color: cadetblue;
+  color: white;
+  font-weight: bold;
+}
+
+.CLEAR {
+ background-color: green;
+   color: white;
+   font-weight: bold;
+}

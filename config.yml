@@ -1,0 +1,16 @@
+---
+logging:
+  level: INFO
+  loggers:
+    com.programmervsworld: DEBUG
+
+server:
+  rootPath: /api/
+
+database:
+  driverClass: "org.mariadb.jdbc.Driver"
+  user: "shedlab"
+  password: "fairlane"
+  url: "jdbc:mariadb://raspberrypi:3306/spindle"
+  properties:
+    charSet: UTF-8
