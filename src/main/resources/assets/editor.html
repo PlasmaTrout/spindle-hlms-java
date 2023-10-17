@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Spindle NMS - Alarm Editor</title>
+    <link rel="stylesheet" href="/photon/css/photon.min.css"/>
+    <link rel="stylesheet" href="/photon/css/alarms.css"/>
+    <script type='text/javascript' src='knockout-3.5.1.js'></script>
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="next-head-count" content="4" />
+  </head>
+</html>
+<body>
+  <div>
+    <main>
+      <div class="window">
+        <header class="toolbar toolbar-header">
+          <h1 class="title">Spindle NMS</h1>
+          <div class="toolbar-actions">
+            <div class="btn-group"></div>
+            <button class="btn btn-default pull-right">
+              <span class="icon icon-retweet"></span></button
+            ><button data-bind="click: createBlankAlarm"
+              class="btn btn-default pull-right"
+              title="Creates a new alarm entry for editing"
+            >
+              <span class="icon icon-plus"></span>
+            </button>
+          </div>
+        </header>
+        <div class="window-content">
+          <div class="pane-group">
+            <div class="pane-sm sidebar">
+              <nav class="nav-group">
+                <h5 class="nav-group-title">Navigation</h5>
+                <a class="nav-group-item" href="/"
+                  ><span class="icon icon-home"></span>Alarms</a
+                ><a class="nav-group-item" href="/editor"
+                  ><span class="icon icon-pencil"></span>Editor</a
+                >
+              </nav>
+            </div>
+            <div class="pane">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Edit</th>
+                    <th>Id</th>
+                    <th>TID</th>
+                    <th>AID</th>
+                    <th>Message</th>
+                    <th>Severity</th>
+                  </tr>
+                </thead>
+                <tbody data-bind="foreach: alarms">
+                  <tr data-bind="class: severity">
+                    <td>
+                      <button class="btn btn-default" data-bind="click: selected">
+                        <span class="icon icon-pencil"></span>
+                      </button>
+                    </td>
+                    <td data-bind="text: id"></td>
+                    <td data-bind="text: date"></td>
+                    <td data-bind="text: tid"></td>
+                    <td data-bind="text: aid"></td>
+                    <td data-bind="text: severity"></td>
+                    <td data-bind="text: message"></td>
+                    <td data-bind="text: state"></td>
+                    <td data-bind="text: group"></td>
+                    <td data-bind="text: link"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="pane sidebar">
+              <form data-bind="with: selectedAlarm, submit: updateAlarm">
+                <div class="form-group">
+                  <label>Target ID (Location)</label
+                  ><input
+                    name="tid"
+                    type="text"
+                    class="form-control"
+                    data-bind="value: tid"
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Alarm ID (Specific Device)</label
+                  ><input
+                    name="aid"
+                    type="text"
+                    class="form-control"
+                    data-bind="value: aid"
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Alarm Message</label
+                  ><input
+                    name="message"
+                    type="text"
+                    class="form-control"
+                    data-bind="value: message"
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Alarm Description</label
+                  ><textarea
+                    name="description"
+                    class="form-control"
+                    rows="3"
+                    data-bind="text: description"
+                  ></textarea>
+                </div>
+                <div class="form-group">
+                  <label>Severity</label
+                  ><select name="severity" class="form-control" data-bind="value: severity">
+                    <option value="INFO">Informational</option>
+                    <option value="CRITICAL">Critical</option>
+                    <option value="MAJOR">Major</option>
+                    <option value="MINOR">Minor</option>
+                    <option value="BUILD">Build</option>
+                    <option value="CLEAR">Clear</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Default Link</label
+                  ><input
+                    name="link"
+                    type="text"
+                    class="form-control"
+                    data-bind="value: link"
+                  />
+                </div>
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-form btn-default">
+                    Cancel</button
+                  ><button type="submit" class="btn btn-form btn-primary">
+                    OK
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <footer class="toolbar toolbar-footer">
+          <h1 class="title">Footer</h1>
+        </footer>
+      </div>
+    </main>
+    <script type='text/javascript' src="models/alarms.js"></script>
+  </div>
+</body>

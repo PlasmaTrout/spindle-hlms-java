@@ -5,5 +5,6 @@ public enum AlarmSeverity {
     INFO,
     MINOR,
     MAJOR,
-    CRITICAL
+    CRITICAL,
+    BUILD
 }
