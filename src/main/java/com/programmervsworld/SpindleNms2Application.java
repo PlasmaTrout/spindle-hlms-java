@@ -2,6 +2,7 @@ package com.programmervsworld;
 
 import com.programmervsworld.api.Alarm;
 import com.programmervsworld.dao.AlarmDao;
+import com.programmervsworld.resources.AlarmResource;
 import com.programmervsworld.resources.AlarmsResource;
 import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.core.Application;
@@ -43,6 +44,7 @@ public class SpindleNms2Application extends Application<SpindleNms2Configuration
                     final Environment environment) {
         var alarmDao = new AlarmDao(scanningHibernateBundle.getSessionFactory());
         environment.jersey().register(new AlarmsResource(alarmDao));
+        environment.jersey().register(new AlarmResource(alarmDao));
     }
 
 }
