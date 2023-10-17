@@ -1,11 +1,9 @@
-FROM alpine
+FROM eclipse-temurin:11
 
-RUN  apk update \
-  && apk upgrade \
-  && apk add ca-certificates \
-  && update-ca-certificates \
-  && apk add --update coreutils && rm -rf /var/cache/apk/*   \
-  && apk add --update openjdk11 tzdata curl unzip bash \
-  && apk add --no-cache nss \
-  && rm -rf /var/cache/apk/*
+WORKDIR /
+
+ADD target/spindle-nms2-1.0-SNAPSHOT.jar app.jar
+ADD config.yml config.yml
+EXPOSE 8080 8081
+ENTRYPOINT ["java", "-jar", "app.jar", "server", "config.yml"]
 
