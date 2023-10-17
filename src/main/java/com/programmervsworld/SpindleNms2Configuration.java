@@ -1,14 +1,14 @@
 package com.programmervsworld;
 
 import io.dropwizard.core.Configuration;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.db.DataSourceFactory;
 import jakarta.validation.Valid;
-import lombok.Data;
-import org.hibernate.validator.constraints.*;
+import lombok.Getter;
+import lombok.Setter;
 import jakarta.validation.constraints.*;
 
-@Data
+@Getter
+@Setter
 public class SpindleNms2Configuration extends Configuration {
 
     @Valid

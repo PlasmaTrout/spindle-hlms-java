@@ -3,6 +3,8 @@ package com.programmervsworld.resources;
 import com.programmervsworld.api.Alarm;
 import com.programmervsworld.api.AlarmState;
 import com.programmervsworld.dao.AlarmDao;
+import com.programmervsworld.websockets.AlarmSocketClient;
+
 import io.dropwizard.hibernate.UnitOfWork;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -10,6 +12,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 
+import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +71,16 @@ public class AlarmResource {
 
         }
 
+        var socketClient = new AlarmSocketClient(URI.create("ws://localhost:3000/alarmsocket"));
+        socketClient.sendMessage("ALARM");
+
         return resultList;
+    }
+
+    @GET
+    @Path("/test")
+    public void testAlarm() {
+        var socketClient = new AlarmSocketClient(URI.create("ws://localhost:3000/alarmsocket"));
+        socketClient.sendMessage("ALARM");
     }
 }

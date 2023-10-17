@@ -83,6 +83,11 @@
             <version>1.18.30</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>be.tomcools</groupId>
+            <artifactId>dropwizard-websocket-jsr356-bundle</artifactId>
+            <version>4.0.0</version>
+          </dependency>
     </dependencies>
 
     <build>

@@ -2,7 +2,6 @@ package com.programmervsworld.dao;
 
 import com.programmervsworld.api.Alarm;
 import io.dropwizard.hibernate.AbstractDAO;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import java.util.Optional;
 import org.hibernate.SessionFactory;
 

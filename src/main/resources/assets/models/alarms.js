@@ -9,10 +9,12 @@ function Alarm(data) {
   this.group = ko.observable(data.group);
   this.link = ko.observable(data.link);
   this.description = ko.observable(data.description);
+  this.visualSeverity = ko.observable(data.state === "CLEAR" ? data.state : data.severity);
 }
 
 function AlarmViewModel() {
   var self = this;
+  self.webSocket = new WebSocket("ws://localhost:3000/alarmsocket");
   self.alarms = ko.observableArray([]);
   self.selectedAlarm = ko.observable();
 
@@ -24,17 +26,18 @@ function AlarmViewModel() {
     fetch("/api/alarms")
       .then((resp) => resp.json())
       .then((j) => {
-        console.log(j);
+        //console.log(j);
         var a = j.map((d) => new Alarm(d));
         self.alarms(a);
       });
   };
 
   self.createBlankAlarm = function () {
-    var newDate = new Date().toISOString().replace('T', ' ');
-    newDate = newDate.substring(0, newDate.indexOf('.'));
+    var newDate = new Date().toISOString().replace("T", " ");
+    newDate = newDate.substring(0, newDate.indexOf("."));
 
-    self.selectedAlarm(new Alarm({
+    self.selectedAlarm(
+      new Alarm({
         tid: "tid",
         aid: "aid",
         date: newDate,
@@ -43,23 +46,40 @@ function AlarmViewModel() {
         description: "New Alarm",
         state: "CLEAR",
         group: "default",
-        link: ""
-    }));
+        link: "",
+      })
+    );
   };
 
   self.updateAlarm = function (form) {
     var json = ko.toJSON(self.selectedAlarm());
     fetch("/api/alarms", {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: json
-    }).then(resp => resp.json())
-    .then(j => {
-       self.refresh();
-    });
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: json,
+    })
+      .then((resp) => resp.json())
+      .then((j) => {
+        self.refresh();
+      });
   };
+
+  webSocket.onmessage = (event) => {
+    console.log("Message: " + event.data);
+    if (event.data != "pong") {
+      self.refresh();
+    }
+  };
+
+  this.webSocket.onclose = () => {
+    console.log("web socket closed for some reason!");
+  }
+
+  setInterval(() => {
+    this.webSocket.send("ping");
+  }, 15000);
 
   refresh();
 }
