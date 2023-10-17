@@ -1,14 +1,84 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Refresh" content="0; url='/api/alarms'" />
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>Spindle NMS</title>
     <link rel="icon" href="/favicon.ico"/>
     <link rel="stylesheet" href="/photon/css/photon.min.css"/>
     <link rel="stylesheet" href="/photon/css/alarms.css"/>
-    <title>Hello</title>
+    <script type='text/javascript' src='knockout-3.5.1.js'></script>
 </head>
-
+<body>
+<div>
+    <main>
+        <div class="window">
+            <header class="toolbar toolbar-header">
+                <h1 class="title">Spindle NMS</h1>
+                <HelloMessage/>
+                <div class="toolbar-actions">
+                    <div class="btn-group">
+                        <button
+                                class="btn btn-default"
+                                title="Toggle visibility of cleared items"
+                        >
+                            <span class="icon icon-eye"></span>
+                        </button>
+                    </div>
+                    <button class="btn btn-default pull-right" data-bind="click: refresh" >
+                        <span class="icon icon-retweet"></span>
+                    </button>
+                </div>
+            </header>
+            <div class="window-content">
+                <div class="pane-group">
+                    <div class="pane-sm sidebar">
+                        <nav class="nav-group">
+                            <h5 class="nav-group-title">Navigation</h5>
+                            <a class="nav-group-item" href="/api/alarms"
+                            ><span class="icon icon-home"></span>Alarms</a
+                            ><a class="nav-group-item" href="/api/alarms/editor"
+                        ><span class="icon icon-pencil"></span>Editor</a>
+                        </nav>
+                    </div>
+                    <div class="pane">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <td><abbr title="Id">Id</abbr></td>
+                                <td><abbr title="Date">Date</abbr></td>
+                                <td><abbr title="TID">TID</abbr></td>
+                                <td><abbr title="AID">AID</abbr></td>
+                                <td><abbr title="Severity">Severity</abbr></td>
+                                <td><abbr title="Message">Message</abbr></td>
+                                <td><abbr title="State">State</abbr></td>
+                                <td><abbr title="Group">Group</abbr></td>
+                                <td><abbr title="Link">Link</abbr></td>
+                            </tr>
+                            </thead>
+                            <tbody data-bind="foreach: alarms">
+                            <tr data-bind="class: severity">
+                                <td data-bind="text: id"></td>
+                                <td data-bind="text: date"></td>
+                                <td data-bind="text: tid"></td>
+                                <td data-bind="text: aid"></td>
+                                <td data-bind="text: severity"></td>
+                                <td data-bind="text: message"></td>
+                                <td data-bind="text: state"></td>
+                                <td data-bind="text: group"></td>
+                                <td data-bind="text: link"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <footer class="toolbar toolbar-footer">
+                <h1 class="title">Footer</h1>
+            </footer>
+        </div>
+    </main>
+</div>
+<script type='text/javascript' src="models/alarms.js"></script>
+</body>
 </html>

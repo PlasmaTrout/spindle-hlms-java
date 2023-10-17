@@ -1,6 +1,5 @@
 package com.programmervsworld;
 
-import com.programmervsworld.api.Alarm;
 import com.programmervsworld.dao.AlarmDao;
 import com.programmervsworld.resources.AlarmResource;
 import com.programmervsworld.resources.AlarmsResource;
@@ -9,9 +8,7 @@ import io.dropwizard.core.Application;
 import io.dropwizard.core.setup.Bootstrap;
 import io.dropwizard.core.setup.Environment;
 import io.dropwizard.db.PooledDataSourceFactory;
-import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.hibernate.ScanningHibernateBundle;
-import io.dropwizard.views.common.ViewBundle;
 
 public class SpindleNms2Application extends Application<SpindleNms2Configuration> {
 
@@ -35,8 +32,7 @@ public class SpindleNms2Application extends Application<SpindleNms2Configuration
     @Override
     public void initialize(final Bootstrap<SpindleNms2Configuration> bootstrap) {
         bootstrap.addBundle(scanningHibernateBundle);
-        bootstrap.addBundle(new AssetsBundle("/assets/", "/"));
-        bootstrap.addBundle(new ViewBundle<>());
+        bootstrap.addBundle(new AssetsBundle("/assets/", "/", "index.html"));
     }
 
     @Override

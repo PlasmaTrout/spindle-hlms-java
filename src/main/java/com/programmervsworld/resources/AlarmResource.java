@@ -9,6 +9,8 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,6 +42,7 @@ public class AlarmResource {
                 } else {
                     a.setState(AlarmState.CLEAR);
                 }
+                a.setDate(LocalDateTime.now());
                 alarmDao.update(a);
             });
             resultList.add(result.orElse(Alarm.builder()
