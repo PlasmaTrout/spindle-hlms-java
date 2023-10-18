@@ -13,7 +13,7 @@ public class AlarmDao extends AbstractDAO<Alarm> {
     }
 
     public List<Alarm> findAll() {
-        return list(query("from Alarm"));
+        return list(query("from Alarm a order by a.date DESC"));
     }
 
     public List<Alarm> finalByTid(String tid) {
