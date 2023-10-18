@@ -30,11 +30,11 @@ public class AlarmSocketClient {
   @OnOpen
   public void onOpen(Session session) {
     this.session = session;
-    try {
+    /*try {
       session.getBasicRemote().sendText("Opening connection");
     } catch (IOException ex) {
       System.out.println(ex);
-    }
+    }*/
   }
 
   public void addMessageHandler(MessageHandler msgHandler) {

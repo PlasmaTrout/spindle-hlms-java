@@ -1,4 +1,13 @@
-# SpindleNms2
+# Spindle LMS
+Spindle LMS is a lightweight monitoring system alarm board designed for home labs, home automation, small networks and small footprint applications. It's designed to run on premise containers and gives access to a REST api that allows alarms points to be created and turned on and off.
+
+![image](shot1.png)
+
+# Versions
+Currently there are two version of Spindle LMS. There is a self contained nextjs veersion with only a file system db, and this version 2 with hibernate external database support.
+
+# Installation
+
 
 How to start the SpindleNms2 application
 ---

@@ -10,7 +10,10 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.UriInfo;
+import lombok.extern.slf4j.Slf4j;
 
 import java.net.URI;
 import java.time.LocalDateTime;
@@ -18,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Path("/alarm")
 @Produces(MediaType.APPLICATION_JSON)
 public class AlarmResource {
@@ -33,7 +37,8 @@ public class AlarmResource {
     public List<Alarm> toggle(@QueryParam("id") Integer id,
                               @QueryParam("mode") String mode,
                               @QueryParam("tid") String tid,
-                              @QueryParam("aid") String aid) {
+                              @QueryParam("aid") String aid,
+                              @Context UriInfo uriInfo) {
 
         var resultList = new ArrayList<Alarm>();
 
@@ -71,16 +76,20 @@ public class AlarmResource {
 
         }
 
-        var socketClient = new AlarmSocketClient(URI.create("ws://localhost:3000/alarmsocket"));
-        socketClient.sendMessage("ALARM");
+        sendAlarmNotification(uriInfo);
 
         return resultList;
     }
 
+    private void sendAlarmNotification(UriInfo uriInfo) {
+        var connection = String.format("ws://%s:%s/alarmsocket", uriInfo.getBaseUri().getHost(), uriInfo.getBaseUri().getPort());
+        var socketClient = new AlarmSocketClient(URI.create(connection));
+        socketClient.sendMessage("ALARM");
+    }
+
     @GET
     @Path("/test")
-    public void testAlarm() {
-        var socketClient = new AlarmSocketClient(URI.create("ws://localhost:3000/alarmsocket"));
-        socketClient.sendMessage("ALARM");
+    public void testAlarm(@Context UriInfo uriInfo) {
+       sendAlarmNotification(uriInfo);
     }
 }

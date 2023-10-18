@@ -9,14 +9,23 @@ function Alarm(data) {
   this.group = ko.observable(data.group);
   this.link = ko.observable(data.link);
   this.description = ko.observable(data.description);
-  this.visualSeverity = ko.observable(data.state === "CLEAR" ? data.state : data.severity);
+  this.visualSeverity = ko.observable(
+    data.state === "CLEAR" ? data.state : data.severity
+  );
 }
 
 function AlarmViewModel() {
   var self = this;
-  self.webSocket = new WebSocket("ws://localhost:3000/alarmsocket");
+  self.webSocket = new WebSocket(
+    "ws://" +
+      window.location.hostname +
+      ":" +
+      window.location.port +
+      "/alarmsocket"
+  );
   self.alarms = ko.observableArray([]);
   self.selectedAlarm = ko.observable();
+  self.connection = ko.observable("Disconnected");
 
   self.selected = function (alarm) {
     self.selectedAlarm(alarm);
@@ -70,14 +79,18 @@ function AlarmViewModel() {
     console.log("Message: " + event.data);
     if (event.data != "pong") {
       self.refresh();
+    } else {
+        self.connection("Active");
     }
   };
 
   this.webSocket.onclose = () => {
     console.log("web socket closed for some reason!");
-  }
+    self.connection("Offline");
+  };
 
   setInterval(() => {
+    self.connection("Connecting");
     this.webSocket.send("ping");
   }, 15000);
 
