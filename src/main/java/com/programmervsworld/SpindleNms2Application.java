@@ -10,8 +10,10 @@ import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.core.Application;
 import io.dropwizard.core.setup.Bootstrap;
 import io.dropwizard.core.setup.Environment;
+import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.db.PooledDataSourceFactory;
 import io.dropwizard.hibernate.ScanningHibernateBundle;
+import io.dropwizard.migrations.MigrationsBundle;
 import jakarta.websocket.server.ServerEndpointConfig;
 
 public class SpindleNms2Application extends Application<SpindleNms2Configuration> {
@@ -23,6 +25,13 @@ public class SpindleNms2Application extends Application<SpindleNms2Configuration
                     return spindleNms2Configuration.getDatabase();
                 }
             };
+    
+    private final MigrationsBundle<SpindleNms2Configuration> migrationsBundle = new MigrationsBundle<SpindleNms2Configuration>() {
+        @Override
+        public DataSourceFactory getDataSourceFactory(SpindleNms2Configuration configuration) {
+            return configuration.getDatabase();
+        }
+    };
 
     private WebsocketBundle<SpindleNms2Configuration> websocketBundle = new WebsocketBundle<SpindleNms2Configuration>();
 
@@ -39,6 +48,7 @@ public class SpindleNms2Application extends Application<SpindleNms2Configuration
     public void initialize(final Bootstrap<SpindleNms2Configuration> bootstrap) {
         bootstrap.addBundle(scanningHibernateBundle);
         bootstrap.addBundle(websocketBundle);
+        bootstrap.addBundle(migrationsBundle);
         bootstrap.addBundle(new AssetsBundle("/assets/", "/", "index.html"));
     }
 
