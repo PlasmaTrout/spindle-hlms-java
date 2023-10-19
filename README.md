@@ -4,7 +4,9 @@ Spindle LMS is a lightweight monitoring system alarm board designed for home lab
 ![image](shot1.png)
 
 # Versions
-Currently there are two version of Spindle LMS. There is a self contained nextjs veersion with only a file system db, and this version 2 with hibernate external database support.
+Currently there are two version of Spindle LMS. There is a self contained nextjs version with only a file system db, and this version 2 with hibernate external database support.
+
+This version is designed to be pulled and built using CI/CD processes from you own git repository, therefore the config.yml file will be specific to your environment.
 
 # Installation
 How to start the SpindleNms2 application for development
