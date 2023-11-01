@@ -13,8 +13,7 @@ How to start the SpindleNms2 application for development
 ---
 
 1. Run `mvn clean install` to build your application
-1. Build out your db, create a databse and set config.yml config to connect to it
-1. Migrate the db to this location with `java -jar target/spindle-nms2-1.0-SNAPSHOT.jar db migrate config.yml`
+1. The database will be created automatically for you, however you will need to provide some alarms for it. It will start off blank. Please use the editor.
 1. Start application with `java -jar target/spindle-nms2-1.0-SNAPSHOT.jar server config.yml`
 1. To check that your application is running enter url `http://localhost:3000`
 
