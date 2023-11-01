@@ -1,6 +1,6 @@
 ---
 logging:
-  level: INFO
+  level: DEBUG
   loggers:
     com.programmervsworld: DEBUG
 
@@ -14,10 +14,13 @@ server:
       port: 3001
 
 database:
-  driverClass: "org.apache.derby.jdbc.EmbeddedDriver"
-  url: " jdbc:derby:alarmsdb;create=true"
-  user: "root"
-  password: "root"
+  driverClass: "org.h2.Driver"
+  url: "jdbc:h2:file:~/alarmsdb"
+  user: sa
+  password: ""
+  
   properties:
     charSet: UTF-8
-    hibernate.hbm2ddl.auto: "create-drop"
+    hibernate.temp.use_jdbc_metadata_defaults: false
+    hibernate.hbm2ddl.auto: "update"
+    hibernate.dialect: org.hibernate.dialect.H2Dialect
