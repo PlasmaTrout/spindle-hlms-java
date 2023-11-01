@@ -41,6 +41,15 @@ function AlarmViewModel() {
       });
   };
 
+  self.flipAlarm = function(alarm) {
+    //console.log(alarm);
+    fetch("/api/alarm?id="+alarm.id())
+    .then((resp) => resp.json())
+    .then((j) => {
+      console.log(j);
+    });
+  };
+
   self.createBlankAlarm = function () {
     var newDate = new Date().toISOString().replace("T", " ");
     newDate = newDate.substring(0, newDate.indexOf("."));

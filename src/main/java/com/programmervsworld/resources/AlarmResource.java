@@ -13,7 +13,6 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.UriInfo;
-import lombok.extern.slf4j.Slf4j;
 
 import java.net.URI;
 import java.time.LocalDateTime;
@@ -21,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
 @Path("/alarm")
 @Produces(MediaType.APPLICATION_JSON)
 public class AlarmResource {
@@ -35,21 +33,31 @@ public class AlarmResource {
     @GET
     @UnitOfWork
     public List<Alarm> toggle(@QueryParam("id") Integer id,
-                              @QueryParam("mode") String mode,
-                              @QueryParam("tid") String tid,
-                              @QueryParam("aid") String aid,
-                              @Context UriInfo uriInfo) {
+            @QueryParam("mode") String mode,
+            @QueryParam("tid") String tid,
+            @QueryParam("aid") String aid,
+            @Context UriInfo uriInfo) {
 
         var resultList = new ArrayList<Alarm>();
 
         if (id != null) {
             var result = alarmDao.findById(id);
             result.ifPresent((a) -> {
-                if ("active".equals(mode.toLowerCase())) {
-                    a.setState(AlarmState.ACTIVE);
+                // If we get a mode from the query string use it
+                if (mode != null) {
+                    if ("active".equals(mode.toLowerCase())) {
+                        a.setState(AlarmState.ACTIVE);
+                    } else {
+                        a.setState(AlarmState.CLEAR);
+                    }
                 } else {
-                    a.setState(AlarmState.CLEAR);
+                    if (a.getState() == AlarmState.ACTIVE) {
+                        a.setState(AlarmState.CLEAR);
+                    } else if (a.getState() == AlarmState.CLEAR) {
+                        a.setState(AlarmState.ACTIVE);
+                    }
                 }
+
                 a.setDate(LocalDateTime.now());
                 alarmDao.update(a);
             });
@@ -59,9 +67,9 @@ public class AlarmResource {
                     .build()));
         }
 
-        if(tid != null) {
+        if (tid != null) {
             var result = alarmDao.finalByTid(tid);
-            if(aid != null) {
+            if (aid != null) {
                 result = result.stream().filter(n -> n.getAid().equals(aid)).collect(Collectors.toList());
             }
             result.forEach((a) -> {
@@ -82,7 +90,8 @@ public class AlarmResource {
     }
 
     private void sendAlarmNotification(UriInfo uriInfo) {
-        var connection = String.format("ws://%s:%s/alarmsocket", uriInfo.getBaseUri().getHost(), uriInfo.getBaseUri().getPort());
+        var connection = String.format("ws://%s:%s/alarmsocket", uriInfo.getBaseUri().getHost(),
+                uriInfo.getBaseUri().getPort());
         var socketClient = new AlarmSocketClient(URI.create(connection));
         socketClient.sendMessage("ALARM");
     }
@@ -90,6 +99,6 @@ public class AlarmResource {
     @GET
     @Path("/test")
     public void testAlarm(@Context UriInfo uriInfo) {
-       sendAlarmNotification(uriInfo);
+        sendAlarmNotification(uriInfo);
     }
 }

@@ -1,7 +1,6 @@
 package com.programmervsworld.websockets;
 
 import java.io.IOException;
-import java.util.Locale;
 
 import jakarta.websocket.Endpoint;
 import jakarta.websocket.EndpointConfig;

@@ -1,8 +1,8 @@
 ---
 logging:
-  level: DEBUG
+  level: INDO
   loggers:
-    com.programmervsworld: DEBUG
+    com.programmervsworld: INFO
 
 server:
   rootPath: /api/
