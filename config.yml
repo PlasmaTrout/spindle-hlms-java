@@ -14,9 +14,10 @@ server:
       port: 3001
 
 database:
-  driverClass: "org.mariadb.jdbc.Driver"
-  user: "shedlab"
-  password: "fairlane"
-  url: "jdbc:mariadb://raspberrypi:3306/spindle"
+  driverClass: "org.apache.derby.jdbc.EmbeddedDriver"
+  url: " jdbc:derby:alarmsdb;create=true"
+  user: "root"
+  password: "root"
   properties:
     charSet: UTF-8
+    hibernate.hbm2ddl.auto: "create-drop"
