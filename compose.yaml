@@ -1,0 +1,38 @@
+name: spindle_hlms
+services:
+  main_app:
+    cpu_shares: 10
+    command: []
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+    image: plasmatrout/spindle-hlms:latest
+    labels:
+      icon: https://raw.githubusercontent.com/PlasmaTrout/spindle-hlms/main/spindle.png
+    ports:
+      - target: 3000
+        published: "3000"
+        protocol: tcp
+      - target: 3001
+        published: "3001"
+        protocol: tcp
+    restart: unless-stopped
+    volumes: []
+    devices: []
+    cap_add: []
+    environment: []
+    network_mode: bridge
+    privileged: false
+    container_name: ""
+x-casaos:
+  author: self
+  category: self
+  hostname: localhost
+  icon: https://raw.githubusercontent.com/PlasmaTrout/spindle-hlms/main/spindle.png
+  index: /
+  port_map: "3000"
+  scheme: http
+  store_app_id: spindle_ams
+  title:
+    custom: Spindle AMS
